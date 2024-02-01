@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from pydantic import SecretStr
 from starlette import status
 
-from app.api.stubs import BotStub, DispatcherStub, SecretStub
+from app.bot.api.stubs import BotStub, DispatcherStub, SecretStub
 
 webhook_router = APIRouter(prefix="/webhook", tags=["Telegram Webhook"])
 

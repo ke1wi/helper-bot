@@ -13,6 +13,7 @@ fastapi = "^0.109.0"
 ngrok = "^0.12.1"
 ruff = "^0.1.15"
 mypy = "^1.8.0"
+uvicorn = "^0.27.0.post1"
 
 
 [build-system]
