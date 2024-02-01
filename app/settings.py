@@ -15,8 +15,6 @@ class Settings(BaseSettings):
     BASE_URL: AnyUrl = AnyUrl("http://localhost:8000")
     WEBHOOK_PATH: str
 
-    # API_ACCESS_TOKEN: SecretStr
-
     @property
     def WEBHOOK_URL(self) -> str:
         return f"{self.BASE_URL}{self.WEBHOOK_PATH}"
