@@ -1,7 +1,8 @@
 from aiogram.types import Message
-from aiogram import Bot
-from app.settings import settings
+from app.bot.messages.general import START_MSG
 
 
-async def start(message: Message, bot: Bot) -> None:
-    await bot.send_message(settings.CHAT_ID, 'Vova, ya tebe lublyu')
+async def start(message: Message) -> None:
+    await message.answer(
+        await START_MSG.render_async()
+    )

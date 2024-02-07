@@ -1,8 +1,8 @@
-from aiogram import Bot, Dispatcher, executor
-from app.settings import Settings
+from aiogram import Bot, Dispatcher
+from app.settings import settings
 
 
 class App:
-    bot = Bot(Settings.TOKEN)
-    dp = Dispatcher(bot)
+    bot = Bot(settings.TOKEN.get_secret_value())
+    dp = Dispatcher()
 
