@@ -1,10 +1,7 @@
 from types import TracebackType
-from typing import Dict, Optional, Self, Type, Union
-import asyncio
-import logging
+from typing import Dict, Optional, Type, Union
 
 from redis.asyncio import Redis
-from redis.exceptions import ConnectionError
 
 
 class DatebaseAPI:
@@ -24,10 +21,6 @@ class DatebaseAPI:
             password=self._password
         )
 
-    @property
-    def client_info(self) -> Dict:
-        return {"HOST": self._host, "PORT": self._port, "DB": self._db}
-
     async def __aenter__(self) -> Redis:
         return self._client
 
@@ -41,14 +34,3 @@ class DatebaseAPI:
 
     async def close(self) -> None:
         await self._client.aclose()
-
-#            USAGE EXAMPLE 
-# async def test():
-#     try:
-#         async with DatebaseAPI() as database_api:
-#             uuid = await database_api.get("id")
-#             print(uuid)
-#     except ConnectionError as err:
-#         logging.error(msg=err)
-#
-# asyncio.run(test())
