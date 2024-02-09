@@ -56,9 +56,5 @@ async def process_date(message: Message, state: FSMContext):
 
 
 async def process_username(message: Message, state: FSMContext):
-    if message.forward_from.username:
-        state.update_data(username=message.forward_from.username)
-        await message.answer(f"username: {message.forward_from.username}")
-        await add_birthday(message=message, state=state)
-    else:
-        await message.answer("username error")
+    await state.update_data(username=message.text)
+    await message.answer("succ")
