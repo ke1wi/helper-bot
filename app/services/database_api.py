@@ -1,23 +1,19 @@
 from types import TracebackType
 from typing import Dict, Optional, Type, Union
+from app.settings import settings
 
 from redis.asyncio import Redis
 
 
 class DatabaseAPI:
-
-    _host: str = "localhost"
-    _port: int = 6379
-    _db: Union[str, int] = 0
-    _password: Optional[str] = None
-
+    
     _client: Redis
 
     def __init__(self) -> None:
         self._client = Redis(
-            host='redis-16556.c304.europe-west1-2.gce.cloud.redislabs.com',
-            port=16556,
-            password='22XHHR2yuwIUc4DJQyvFE2ECfWxOYTBH'
+            host=settings.REDIS_HOST.get_secret_value(),
+            port=settings.REDIS_PORT,
+            password=settings.REDIS_PASSWORD.get_secret_value()
         )
 
     async def __aenter__(self) -> Redis:
