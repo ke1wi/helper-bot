@@ -4,7 +4,7 @@ from typing import Dict, Optional, Type, Union
 from redis.asyncio import Redis
 
 
-class DatebaseAPI:
+class DatabaseAPI:
 
     _host: str = "localhost"
     _port: int = 6379
@@ -15,10 +15,9 @@ class DatebaseAPI:
 
     def __init__(self) -> None:
         self._client = Redis(
-            host=self._host,
-            port=self._port,
-            db=self._db,
-            password=self._password
+            host='redis-16556.c304.europe-west1-2.gce.cloud.redislabs.com',
+            port=16556,
+            password='22XHHR2yuwIUc4DJQyvFE2ECfWxOYTBH'
         )
 
     async def __aenter__(self) -> Redis:
