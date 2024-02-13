@@ -3,24 +3,30 @@ from aiogram.filters import CommandObject
 from app.services.database_api import DatabaseAPI
 from uuid import uuid4, UUID
 from typing import List, Union, Dict, Any
-
+from app.bot.messages.add_bd_msgs import FORMAT_MSG, ALREADY_IN_DB_MSG
 
 async def add_birthday(message: Message, command: CommandObject) -> None:
     if not command.args:
-        await message.answer(f"You should use this command in this format:\n /add &lt;day.month.year&gt; &lt;alias&gt;")
+        await message.answer(
+            await FORMAT_MSG.render_async()
+        )
         return
 
     args = command.args.split()
 
     if len(args) != 2:
-        await message.answer(f"<i>Invalid amount of args</i>\nYou should use this command in this format:\n /add &lt;day.month.year&gt; &lt;alias&gt;")
+        await message.answer(
+            await FORMAT_MSG.render_async()
+        )
         return
 
     async with DatabaseAPI() as client:
         response: Dict[Union[UUID, str], Dict[str, str]] = await client.json().get("Students")
         if response:
             if next(filter(lambda value: value.get("user_id") == message.from_user.id, response.values()), None):
-                await message.answer("You are already in database")
+                await message.answer(
+                    await ALREADY_IN_DB_MSG.render_async()
+                )
                 return
 
 
