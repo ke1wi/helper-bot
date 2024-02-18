@@ -1,5 +1,5 @@
 from types import TracebackType
-from typing import Dict, Optional, Type, Union
+from typing import Optional, Type
 from app.settings import settings
 
 from redis.asyncio import Redis

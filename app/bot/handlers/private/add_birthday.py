@@ -2,8 +2,10 @@ from aiogram.types import Message
 from aiogram.filters import CommandObject
 from app.services.database_api import DatabaseAPI
 from uuid import uuid4, UUID
-from typing import List, Union, Dict, Any
-from app.bot.messages.add_bd_msgs import FORMAT_MSG, ALREADY_IN_DB_MSG
+from typing import Union, Dict
+from app.bot.messages.add_bd import FORMAT_MSG, ALREADY_IN_DB_MSG
+from app.utils.date_service import DateService
+
 
 async def add_birthday(message: Message, command: CommandObject) -> None:
     if not command.args:
@@ -29,19 +31,10 @@ async def add_birthday(message: Message, command: CommandObject) -> None:
                 )
                 return
 
-
-    def validate_date(date):
-        from datetime import datetime
-        try:
-            date = datetime.strptime(date, '%d.%m.%Y')
-            return date
-        except:
-            return None
-
-    if validate_date(args[0]):
-        await message.answer(f"Your bd: {args[0]}\nYour alias: {args[1]}\nREPLY_MARKUP")
+    if DateService.validate_date(args[0]):
+        await message.answer(f"Your bd: {args[0]}\nYour alias: {args[1]}\nREPLY_MARKUP:Buttons to approve, edit or decline")
     else:
-        await message.answer(f"Date is invalid")
+        await message.answer("Date is invalid")
         return
 
-    await client.json().set("Students", f"$.{uuid4()}", {"user_id": message.from_user.id, "birthday": args[0], "alias": args[1]})
+    await client.json().set("Students", f"$.{uuid4()}", {"user_id": message.from_user.id, "username": message.from_user.username, "birthday": args[0], "alias": args[1]})
