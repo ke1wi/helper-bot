@@ -2,14 +2,14 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 
 from app.bot.handlers import router as main_router
-# from app.schedule import Schedule
+from app.schedule import Schedule
 from app.settings import settings
 from app.utils.commands import set_bot_commands
 
 
 async def on_startup(bot: Bot, dispatcher: Dispatcher) -> None:
-    # schedule = Schedule(bot)
-    # schedule.start()
+    schedule = Schedule(bot)
+    schedule.start()
     await bot.delete_webhook(drop_pending_updates=True)
     await set_bot_commands(bot)
     await bot.set_webhook(

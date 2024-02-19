@@ -7,6 +7,8 @@ from aiogram.types import (
 
 async def set_bot_commands(bot: Bot) -> None:
     commands = [
-        BotCommand(command='start', description="Start command")
+        BotCommand(command='start', description="Start command"),
+        BotCommand(command='help', description="Help command"),
+        BotCommand(command='add', description="<day.month.year> <alias>"),
     ]
     await bot.set_my_commands(commands=commands)
