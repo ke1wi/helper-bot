@@ -1,10 +1,13 @@
 from aiogram.types import Message
+from aiogram import Bot
 from aiogram.filters import CommandObject
 from app.services.database_api import DatabaseAPI
 from uuid import uuid4, UUID
 from typing import Union, Dict
 from app.bot.messages.add_bd import FORMAT_MSG, ALREADY_IN_DB_MSG
 from app.utils.date_service import DateService
+from aiogram.types import CallbackQuery
+from app.settings import settings
 
 
 async def add_birthday(message: Message, command: CommandObject) -> None:
@@ -31,10 +34,21 @@ async def add_birthday(message: Message, command: CommandObject) -> None:
                 )
                 return
 
-    if DateService.validate_date(args[0]):
-        await message.answer(f"Your bd: {args[0]}\nYour alias: {args[1]}\nREPLY_MARKUP:Buttons to approve, edit or decline")
+    if date:= DateService.validate_date(args[0]):
+        await message.answer(f"Your bd: {date}\nYour alias: {args[1]}\nREPLY_MARKUP")
     else:
         await message.answer("Date is invalid")
         return
 
     await client.json().set("Students", f"$.{uuid4()}", {"user_id": message.from_user.id, "username": message.from_user.username, "birthday": args[0], "alias": args[1]})
+
+
+async def send_congrats(callback: CallbackQuery, bot: Bot):
+    await bot.send_message(
+        settings.CHAT_ID,
+        text="Вітаю"
+    )
+    await callback.message.edit_text(
+        "Привітав"
+    )
+    await callback.answer()

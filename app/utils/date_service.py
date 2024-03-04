@@ -4,9 +4,9 @@ from datetime import datetime
 class DateService:
 
     @classmethod
-    def validate_date(cls, date):
+    def validate_date(cls, bd_date: str) -> datetime | None:
         try:
-            datetime.strptime(date, "%d.%M.%Y")
-            return True
+            date = datetime.strptime(bd_date, "%d.%m.%Y")
+            return date.strftime("%d.%m.%Y")
         except ValueError:
-            return False
+            return None
