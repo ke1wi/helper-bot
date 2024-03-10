@@ -15,9 +15,7 @@ class Settings(BaseSettings):
     BASE_URL: AnyUrl = AnyUrl("http://localhost:8000")
     WEBHOOK_PATH: str
 
-    REDIS_HOST: SecretStr
-    REDIS_PORT: int
-    REDIS_PASSWORD: SecretStr
+    MONGO_URI: str
 
     @property
     def WEBHOOK_URL(self) -> str:

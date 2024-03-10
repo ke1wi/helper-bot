@@ -18,23 +18,7 @@ class Schedule:
 
     def start(self) -> None:
         # self._scheduler.add_job(self.schedule, trigger="cron", day="*", hour=9)
-        self._scheduler.add_job(self.schedule, trigger="interval", seconds=20)
+        # self._scheduler.add_job(self.schedule, trigger="interval", seconds=20)
         self._scheduler.start()
 
-    async def schedule(self):
-        celebrants: List[Student] = []
-        async with DatabaseAPI() as client:
-            students: Students = await client.json().get("Students")
-            for student in students.values():
-                date = datetime.strptime(student.get("birthday"), "%d.%m.%Y")
-                logging.info(f"\nDay: {date.day}\nMonth {date.month}\n"+"---"*10)
-                if date.day == datetime.now().day and date.month == datetime.now().month:
-                    celebrants.append(student)
-
-        logging.info(celebrants)
-        if celebrants:
-            await self._bot.send_message(
-                settings.CHAT_ID,
-                await CELEBRANTS_MSG.render_async(celebrants=celebrants), 
-                reply_markup=get_approve_birthday_keyboard()
-            )
+        

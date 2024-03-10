@@ -2,22 +2,24 @@ from types import TracebackType
 from typing import Optional, Type
 from app.settings import settings
 
-from redis.asyncio import Redis
+from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo.collection import Collection
+
+
 
 
 class DatabaseAPI:
-    
-    _client: Redis
+
+    _collection: Collection
 
     def __init__(self) -> None:
-        self._client = Redis(
-            host=settings.REDIS_HOST.get_secret_value(),
-            port=settings.REDIS_PORT,
-            password=settings.REDIS_PASSWORD.get_secret_value()
+        self._client = AsyncIOMotorClient(
+            settings.MONGO_URI
         )
+        self._collection = self._client.get_database("HelperBot").get_collection("TODO")
 
-    async def __aenter__(self) -> Redis:
-        return self._client
+    async def __aenter__(self) -> Collection:
+        return self._collection
 
     async def __aexit__(
             self,
@@ -28,4 +30,4 @@ class DatabaseAPI:
         await self.close()
 
     async def close(self) -> None:
-        await self._client.aclose()
+        self._client.close()
