@@ -5,5 +5,5 @@ class BirthdaySendApprove(CallbackData, prefix="birthday"):
     done: bool
 
 
-class TodoApprove(CallbackData, prefix="todo"):
+class TodoApprove(CallbackData, prefix="todo_approve"):
     done: bool

@@ -55,7 +55,7 @@ async def todo_type(callback: CallbackQuery, callback_data: SelectTodoType, stat
     await state.update_data({"remind_in": datetime.now() - timedelta(hours=3)})
     data = await state.get_data()
     await callback.message.edit_text(
-        "За скільки Тобі нагдати" if callback_data == "REMIDER" else "За скільки Тобі нагадати про дедлайн",
+        "За скільки Тобі нагадати" if callback_data.todo_type == "REMIND" else "За скільки Тобі нагадати про дедлайн",
         reply_markup=get_clock(data.get('remind_in'))
     )
 
