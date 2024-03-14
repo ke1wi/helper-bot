@@ -7,7 +7,7 @@ from datetime import datetime
 from app.settings import settings
 from app.bot.messages.admin import CELEBRANTS_MSG
 import logging
-from app.bot.keyboard.types.approve_birthday_keyboard import get_approve_birthday_keyboard
+from app.bot.keyboard.approve_keyboards import get_approve_birthday_keyboard
 
 
 class Schedule:

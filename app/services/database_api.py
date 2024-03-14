@@ -2,24 +2,17 @@ from types import TracebackType
 from typing import Optional, Type
 from app.settings import settings
 
-from motor.motor_asyncio import AsyncIOMotorClient
-from pymongo.collection import Collection
-
-
+from pymongo import MongoClient
 
 
 class DatabaseAPI:
-
-    _collection: Collection
+    _client: MongoClient
 
     def __init__(self) -> None:
-        self._client = AsyncIOMotorClient(
-            settings.MONGO_URI
-        )
-        self._collection = self._client.get_database("HelperBot").get_collection("TODO")
+        self._client = MongoClient(settings.MONGO_URI)
 
-    async def __aenter__(self) -> Collection:
-        return self._collection
+    async def __aenter__(self) -> MongoClient:
+        return self._client
 
     async def __aexit__(
             self,
