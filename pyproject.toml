@@ -11,6 +11,12 @@ dependencies = [
     "pydantic==2.8",
     "fastapi[standard]>=0.114.1",
     "ngrok>=1.4.0",
+    "aiogram-dialog>=2.1.0",
+    "apscheduler>=3.10.4",
+    "asyncpg>=0.29.0",
+    "sqlalchemy>=2.0.34",
+    "alembic>=1.13.2",
+    "greenlet>=3.1.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
@@ -21,7 +27,12 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = []
+dev-dependencies = [
+    "ruff>=0.6.5",
+    "black>=24.8.0",
+    "colorama>=0.4.6",
+    "mypy>=1.11.2",
+]
 
 [tool.hatch.metadata]
 allow-direct-references = true

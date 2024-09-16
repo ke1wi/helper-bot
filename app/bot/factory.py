@@ -1,7 +1,7 @@
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.fsm.storage.memory import SimpleEventIsolation
+from aiogram.fsm.storage.memory import SimpleEventIsolation, MemoryStorage
 
 from app.bot.handlers import router as main_router
 from app.settings import settings
@@ -21,8 +21,11 @@ async def on_startup(bot: Bot, dispatcher: Dispatcher) -> None:
 
 
 def create_dispatcher() -> Dispatcher:
-    dispatcher = Dispatcher(events_isolation=SimpleEventIsolation())
-    dispatcher.include_router(main_router)
+    dispatcher = Dispatcher(
+        events_isolation=SimpleEventIsolation(),
+        storage=MemoryStorage(),
+    )
+    dispatcher.include_routers(main_router)
     dispatcher.startup.register(on_startup)
 
     return dispatcher

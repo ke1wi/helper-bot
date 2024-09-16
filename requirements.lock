@@ -13,6 +13,9 @@
 aiofiles==23.2.1
     # via aiogram
 aiogram==3.13.0
+    # via aiogram-dialog
+    # via helper-bot
+aiogram-dialog==2.1.0
     # via helper-bot
 aiohappyeyeballs==2.4.0
     # via aiohttp
@@ -20,14 +23,22 @@ aiohttp==3.10.5
     # via aiogram
 aiosignal==1.3.1
     # via aiohttp
+alembic==1.13.2
+    # via helper-bot
 annotated-types==0.7.0
     # via pydantic
 anyio==4.4.0
     # via httpx
     # via starlette
     # via watchfiles
+apscheduler==3.10.4
+    # via helper-bot
+asyncpg==0.29.0
+    # via helper-bot
 attrs==24.2.0
     # via aiohttp
+cachetools==5.5.0
+    # via aiogram-dialog
 certifi==2024.8.30
     # via aiogram
     # via httpcore
@@ -46,6 +57,8 @@ fastapi-cli==0.0.5
 frozenlist==1.4.1
     # via aiohttp
     # via aiosignal
+greenlet==3.1.0
+    # via helper-bot
 h11==0.14.0
     # via httpcore
     # via uvicorn
@@ -61,13 +74,18 @@ idna==3.8
     # via httpx
     # via yarl
 jinja2==3.1.4
+    # via aiogram-dialog
     # via fastapi
 magic-filter==1.0.12
     # via aiogram
+    # via aiogram-dialog
+mako==1.3.5
+    # via alembic
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.5
     # via jinja2
+    # via mako
 mdurl==0.1.2
     # via markdown-it-py
 multidict==6.1.0
@@ -91,25 +109,36 @@ python-dotenv==1.0.1
     # via uvicorn
 python-multipart==0.0.9
     # via fastapi
+pytz==2024.2
+    # via apscheduler
 pyyaml==6.0.2
     # via uvicorn
 rich==13.8.1
     # via typer
 shellingham==1.5.4
     # via typer
+six==1.16.0
+    # via apscheduler
 sniffio==1.3.1
     # via anyio
     # via httpx
+sqlalchemy==2.0.34
+    # via alembic
+    # via helper-bot
 starlette==0.38.5
     # via fastapi
 typer==0.12.5
     # via fastapi-cli
 typing-extensions==4.12.2
     # via aiogram
+    # via alembic
     # via fastapi
     # via pydantic
     # via pydantic-core
+    # via sqlalchemy
     # via typer
+tzlocal==5.2
+    # via apscheduler
 uvicorn==0.30.6
     # via fastapi
     # via fastapi-cli
