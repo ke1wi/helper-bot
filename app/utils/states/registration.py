@@ -6,3 +6,4 @@ class Registration(StatesGroup):
     name = State()
     surname = State()
     number = State()
+    birthday = State()

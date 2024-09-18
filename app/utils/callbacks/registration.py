@@ -1,15 +1,11 @@
 from aiogram.filters.callback_data import CallbackData
 
 
-class Registration(CallbackData, prefix="reg"):
-    pass
-
-
 class Approve(CallbackData, prefix="approve_reg"):
     pass
 
 
-class Edit(CallbackData, prefix="deny_reg"):
+class Edit(CallbackData, prefix="edit_reg"):
     pass
 
 

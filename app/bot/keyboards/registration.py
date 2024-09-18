@@ -1,14 +1,18 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardMarkup
 
-from app.utils.callbacks.registration import Approve, Edit, Cancel
+from app.utils.callbacks.registration import (
+    Approve,
+    Edit,
+    Cancel,
+)
 
 
 def registration_keyboard() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
     builder.button(text="Підтвердити ✅", callback_data=Approve())
-    builder.button(text="Виправити ✏️", callback_data=Edit())
+    builder.button(text="Переробити ✏️", callback_data=Edit())
     builder.button(text="Відміна ❌", callback_data=Cancel())
 
     builder.adjust(2, 1)

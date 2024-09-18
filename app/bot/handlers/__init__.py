@@ -11,9 +11,15 @@ from app.bot.handlers.registration import (
     approve,
     reg,
     cancel,
+    birthday,
+    edit,
 )
 from app.utils.states.registration import Registration
-from app.utils.callbacks.registration import Cancel, Approve, Edit
+from app.utils.callbacks.registration import (
+    Cancel,
+    Approve,
+    Edit,
+)
 
 router = Router(name=__name__)
 
@@ -26,4 +32,6 @@ router.message.register(email, Registration.email)
 router.message.register(name, Registration.name)
 router.message.register(surname, Registration.surname)
 router.message.register(number, Registration.number)
+router.message.register(birthday, Registration.birthday)
 router.callback_query.register(approve, Approve.filter())
+router.callback_query.register(edit, Edit.filter())

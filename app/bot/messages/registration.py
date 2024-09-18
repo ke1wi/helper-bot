@@ -9,5 +9,6 @@ REGISTRATION_MSG = environment.from_string(
 Прізвище: <b>{{surname}}</b>
 Електронна пошта: <b>{{email}}</b>
 Номер телефону: <b>{{number}}</b>
+Дата народження: <b>{{birthday}}</b>
 """
 )
