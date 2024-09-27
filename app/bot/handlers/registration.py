@@ -2,7 +2,8 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from app.utils.callbacks.registration import (
     Approve,
-    Edit,)
+    Edit,
+)
 from app.utils.database.models.user import User
 import re
 from app.bot.keyboards.registration import (
@@ -35,16 +36,17 @@ async def cancel(
     callback: CallbackQuery,
     callback_data: Cancel,
     state: FSMContext,
-    editing: bool = False
+    editing: bool = False,
 ) -> None:
     data = await state.get_data()
     last_message_id: int = callback.message.message_id
     first_message_id: int = data.get("first_message_id")
     await callback.bot.delete_messages(
-        callback.message.chat.id, [i for i in range(first_message_id + 1, last_message_id)]
+        callback.message.chat.id,
+        [i for i in range(first_message_id + 1, last_message_id)],
     )
     if editing:
-        await callback.message.edit_text("Перероблюємо ✏️") 
+        await callback.message.edit_text("Перероблюємо ✏️")
     else:
         await callback.message.edit_text("Відміняю ❌")
     await state.clear()

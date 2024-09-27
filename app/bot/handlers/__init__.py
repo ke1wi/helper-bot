@@ -1,5 +1,6 @@
 from aiogram import Router
 from aiogram.filters.command import CommandStart, Command
+from app.bot.handlers.view import view
 from app.bot.handlers.start import start
 from app.bot.handlers.help import help
 
@@ -35,3 +36,4 @@ router.message.register(number, Registration.number)
 router.message.register(birthday, Registration.birthday)
 router.callback_query.register(approve, Approve.filter())
 router.callback_query.register(edit, Edit.filter())
+router.message.register(view, Command("view"))
