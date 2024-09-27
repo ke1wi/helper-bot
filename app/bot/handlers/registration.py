@@ -2,7 +2,8 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from app.utils.callbacks.registration import (
     Approve,
-    Edit,)
+    Edit,
+)
 from app.utils.database.models.user import User
 import re
 from app.bot.keyboards.registration import (
@@ -25,6 +26,7 @@ async def reg(message: Message, state: FSMContext) -> None:
     await state.update_data(
         {
             "telegram_id": message.chat.id,
+            "telegram_username": message.chat.username,
             "name": message.text,
             "first_message_id": message.message_id,
         }
@@ -35,16 +37,17 @@ async def cancel(
     callback: CallbackQuery,
     callback_data: Cancel,
     state: FSMContext,
-    editing: bool = False
+    editing: bool = False,
 ) -> None:
     data = await state.get_data()
     last_message_id: int = callback.message.message_id
     first_message_id: int = data.get("first_message_id")
     await callback.bot.delete_messages(
-        callback.message.chat.id, [i for i in range(first_message_id + 1, last_message_id)]
+        callback.message.chat.id,
+        [i for i in range(first_message_id + 1, last_message_id)],
     )
     if editing:
-        await callback.message.edit_text("Перероблюємо ✏️") 
+        await callback.message.edit_text("Перероблюємо ✏️")
     else:
         await callback.message.edit_text("Відміняю ❌")
     await state.clear()
@@ -61,9 +64,13 @@ async def edit(
     await callback.answer()
 
 
-async def email(message: Message, state: FSMContext, editing: bool = False) -> None:
+async def email(
+    message: Message, state: FSMContext, editing: bool = False
+) -> None:
     email = message.text
-    if re.fullmatch(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b", email):
+    if re.fullmatch(
+        r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b", email
+    ):
         if not await get_user_by_email(email):
             await state.update_data({"email": email})
             await message.answer(
@@ -115,7 +122,8 @@ async def number(message: Message, state: FSMContext) -> None:
     if re.fullmatch(r"^\+?38\s?0\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$", number):
         await state.update_data({"number": number})
         await message.answer(
-            "Введіть дату народження:", reply_markup=registration_cancel_keyboard()
+            "Введіть дату народження:",
+            reply_markup=registration_cancel_keyboard(),
         )
         await state.set_state(Registration.birthday)
     else:
@@ -163,13 +171,15 @@ async def approve(
             number=data.get("number"),
             birthday=data.get("birthday"),
             telegram_id=data.get("telegram_id"),
+            telegram_username=data.get("telegram_username"),
         )
     )
     data = await state.get_data()
     last_message_id: int = callback.message.message_id
     first_message_id: int = data.get("first_message_id")
     await callback.bot.delete_messages(
-        callback.message.chat.id, [i for i in range(first_message_id, last_message_id)]
+        callback.message.chat.id,
+        [i for i in range(first_message_id, last_message_id)],
     )
     await callback.message.edit_text(
         f"Юзер <b>{data.get("surname")} {data.get("name")}</b> успішно зарєєстрований!"

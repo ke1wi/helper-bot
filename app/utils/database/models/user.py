@@ -9,6 +9,7 @@ class User(TimedBase):
     __tablename__ = "users"
 
     telegram_id: Mapped[int] = mapped_column("telegram_id", BigInteger)
+    telegram_username: Mapped[str]
     email: Mapped[str] = mapped_column(unique=True)
     name: Mapped[str]
     surname: Mapped[str]
