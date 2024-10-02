@@ -8,9 +8,11 @@ from typing import Optional, Type
 class Database_API:
 
     def __init__(self) -> None:
-        self.async_engine: AsyncEngine = create_async_engine(settings.POSTGRES_URI)
-        self.async_session: async_sessionmaker[AsyncSession] = async_sessionmaker(
-            self.async_engine, expire_on_commit=False
+        self.async_engine: AsyncEngine = create_async_engine(
+            settings.POSTGRES_URI
+        )
+        self.async_session: async_sessionmaker[AsyncSession] = (
+            async_sessionmaker(self.async_engine, expire_on_commit=False)
         )
 
     async def __aenter__(self) -> AsyncSession:
