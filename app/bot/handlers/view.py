@@ -1,6 +1,5 @@
 from aiogram.types import Message
 from app.utils.database.api import get_users
-from app.utils.database.models.user import User
 from app.bot.messages.view import VIEW_MSG
 
 
