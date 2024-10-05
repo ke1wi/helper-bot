@@ -25,10 +25,6 @@ class Settings(BaseSettings):
     def WEBHOOK_URL(self) -> str:
         return f"{self.BASE_URL}{self.WEBHOOK_PATH}"
 
-    @property
-    def POSTGRES_URI(self) -> str:
-        return f"postgresql+asyncpg://{self.PG_USER}:{self.PG_PASSWORD}@{self.PG_HOST}:{self.PG_PORT}/{self.PG_DATABASE}"
-
     model_config = SettingsConfigDict(
         env_file=(".env", "stack.env"), env_file_encoding="utf-8", extra="ignore"
     )

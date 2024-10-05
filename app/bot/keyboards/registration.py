@@ -8,7 +8,7 @@ from app.utils.callbacks.registration import (
 )
 
 
-def registration_keyboard() -> InlineKeyboardMarkup:
+async def registration_keyboard() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
     builder.button(text="Підтвердити ✅", callback_data=Approve())
@@ -19,7 +19,7 @@ def registration_keyboard() -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def registration_cancel_keyboard() -> InlineKeyboardMarkup:
+async def registration_cancel_keyboard() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
 
     builder.button(text="Відміна ❌", callback_data=Cancel())

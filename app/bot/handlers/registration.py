@@ -20,7 +20,7 @@ from app.utils.dateutils import parse_birthday
 async def reg(message: Message, state: FSMContext) -> None:
     await state.clear()
     await message.answer(
-        "Введіть електронну пошту:", reply_markup=registration_cancel_keyboard()
+        "Введіть електронну пошту:", reply_markup=await registration_cancel_keyboard()
     )
     await state.set_state(Registration.email)
     await state.update_data(
@@ -64,18 +64,14 @@ async def edit(
     await callback.answer()
 
 
-async def email(
-    message: Message, state: FSMContext, editing: bool = False
-) -> None:
+async def email(message: Message, state: FSMContext, editing: bool = False) -> None:
     email = message.text
-    if re.fullmatch(
-        r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b", email
-    ):
+    if re.fullmatch(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b", email):
         if not await get_user_by_email(email):
             await state.update_data({"email": email})
             await message.answer(
                 "Введіть імʼя:",
-                reply_markup=registration_cancel_keyboard(),
+                reply_markup=await registration_cancel_keyboard(),
             )
             if not editing:
                 await state.set_state(Registration.name)
@@ -94,14 +90,14 @@ async def email(
     else:
         await message.answer(
             "Електронна пошта неправильна\nВведіть електронну пошту ще раз:",
-            reply_markup=registration_cancel_keyboard(),
+            reply_markup=await registration_cancel_keyboard(),
         )
 
 
 async def name(message: Message, state: FSMContext) -> None:
     await state.update_data({"name": message.text})
     await message.answer(
-        "Введіть прізвище:", reply_markup=registration_cancel_keyboard()
+        "Введіть прізвище:", reply_markup=await registration_cancel_keyboard()
     )
     await state.set_state(Registration.surname)
 
@@ -110,7 +106,7 @@ async def surname(message: Message, state: FSMContext) -> None:
     await state.update_data({"surname": message.text})
     await message.answer(
         "Введіть телефон:\nПриклад: <b>0501234567</b>",
-        reply_markup=registration_cancel_keyboard(),
+        reply_markup=await registration_cancel_keyboard(),
     )
     await state.set_state(Registration.number)
 
@@ -123,13 +119,13 @@ async def number(message: Message, state: FSMContext) -> None:
         await state.update_data({"number": number})
         await message.answer(
             "Введіть дату народження:",
-            reply_markup=registration_cancel_keyboard(),
+            reply_markup=await registration_cancel_keyboard(),
         )
         await state.set_state(Registration.birthday)
     else:
         await message.answer(
             "Номер телефону неправильний\nВведіть телефон ще раз:",
-            reply_markup=registration_cancel_keyboard(),
+            reply_markup=await registration_cancel_keyboard(),
         )
 
 
@@ -141,7 +137,7 @@ async def birthday(message: Message, state: FSMContext) -> None:
     else:
         await message.answer(
             "Дата народження неправильна\nВведіть дату народження ще раз:",
-            reply_markup=registration_cancel_keyboard(),
+            reply_markup=await registration_cancel_keyboard(),
         )
 
 
@@ -155,7 +151,7 @@ async def info(message: Message, state: FSMContext) -> None:
             number=data.get("number"),
             birthday=data.get("birthday"),
         ),
-        reply_markup=registration_keyboard(),
+        reply_markup=await registration_keyboard(),
     )
 
 
@@ -177,12 +173,12 @@ async def approve(
     data = await state.get_data()
     last_message_id: int = callback.message.message_id
     first_message_id: int = data.get("first_message_id")
+    surname = data.get("surname")
+    name = data.get("name")
     await callback.bot.delete_messages(
         callback.message.chat.id,
         [i for i in range(first_message_id, last_message_id)],
     )
-    await callback.message.edit_text(
-        f"Юзер <b>{data.get("surname")} {data.get("name")}</b> успішно зарєєстрований!"
-    )
+    await callback.message.edit_text(f"Юзер {surname} {name} успішно зарєєстрований!")
     await callback.answer()
     await state.clear()
