@@ -1,0 +1,60 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: ke1wiorg
+service: helper-bot
+
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.12
+  stage: ${opt:stage, "dev"}
+  environment:
+    TOKEN: ${env:TOKEN}
+    CHAT_ID: ${env:CHAT_ID}
+    TELEGRAM_SECRET: ${env:TELEGRAM_SECRET}
+    BASE_URL: ${env:BASE_URL}
+    PG_USER: ${env:PG_USER}
+    PG_PASSWORD: ${env:PG_PASSWORD}
+    PG_HOST: ${env:PG_HOST}
+    PG_PORT: ${env:PG_PORT}
+    PG_DATABASE: ${env:PG_DATABASE}
+
+package:
+  exclude:
+    - Makefile
+    - poetry.lock
+    - README.md
+    - tests/**
+    - docs/**
+    - node_modules/**
+    - .venv/**
+    - .serverless/**
+    - package.json
+    - package-lock.json
+    - .pytest_cache
+    - .hypothesis
+
+custom:
+  pythonRequirements:
+    fileName: requirements.lock
+    dockerizePip: true
+    dockerPlatform: linux/amd64
+    layer:
+      name: serverless-fastapi-deps
+      description: Dependencies of serverless-fastapi
+      compatibleRuntimes:
+        - python3.12
+
+functions:
+  api:
+    handler: app.main.handler
+    layers:
+      - { "Ref": "PythonRequirementsLambdaLayer" }
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: any
+          path: /{proxy+}
