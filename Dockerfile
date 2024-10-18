@@ -1,17 +1,27 @@
 FROM python:3.12-slim-bookworm
 
-RUN apt-get update && apt-get install -y build-essential curl
-ENV VIRTUAL_ENV=.venv \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV VIRTUAL_ENV=/opt/venv \
     PATH="/opt/venv/bin:$PATH"
 
 ADD https://astral.sh/uv/install.sh /install.sh
-RUN chmod -R 655 /install.sh && /install.sh && rm /install.sh
-COPY . .
-COPY .env /app/.env
+RUN chmod +x /install.sh && /install.sh && rm /install.sh
+
+COPY ./requirements.lock /app/requirements.lock
+COPY ./pyproject.toml /app/pyproject.toml
 WORKDIR /app
-COPY ./requirements.lock .
-COPY ./pyproject.toml .
-RUN /root/.cargo/bin/uv venv /opt/venv && \
-    /root/.cargo/bin/uv pip install --no-cache -r requirements.lock
+
+RUN /root/.cargo/bin/uv venv $VIRTUAL_ENV && \
+    /root/.cargo/bin/uv pip install --no-cache-dir -r requirements.lock
+
+COPY . .
+
+COPY .env /app/.env
+
+WORKDIR /app
 
 CMD ["fastapi", "run"]
