@@ -55,7 +55,3 @@ jobs:
       - name: Build Docker image
         run: |
           docker buildx build --platform linux/amd64 --load -t helper-bot:latest .
-
-      - name: Update cache
-        if: success()
-        run: mv /tmp/.buildx-cache-new /tmp/.buildx-cache
