@@ -6,6 +6,8 @@ from aiogram.fsm.storage.memory import SimpleEventIsolation, MemoryStorage
 from app.bot.handlers import router as main_router
 from app.settings import settings
 from app.utils.commands import set_bot_commands
+from aiogram_dialog import setup_dialogs
+from app.bot.dialogs import chat_dialog, registration_dialog
 
 
 async def on_startup(bot: Bot, dispatcher: Dispatcher) -> None:
@@ -25,8 +27,9 @@ def create_dispatcher() -> Dispatcher:
         events_isolation=SimpleEventIsolation(),
         storage=MemoryStorage(),
     )
-    dispatcher.include_routers(main_router)
+    dispatcher.include_routers(main_router, chat_dialog, registration_dialog)
     dispatcher.startup.register(on_startup)
+    setup_dialogs(dispatcher)
 
     return dispatcher
 

@@ -1,14 +1,9 @@
-from app.bot.messages.enviromnent import environment
-
-
-REGISTRATION_MSG = environment.from_string(
-    """
+REGISTRATION_MSG = """
 Перевір чи все правильно:
 
-Імʼя: <b>{{name}}</b>
-Прізвище: <b>{{surname}}</b>
-Електронна пошта: <b>{{email}}</b>
-Номер телефону: <b>{{number}}</b>
-Дата народження: <b>{{birthday}}</b>
+"Імʼя: <b>{dialog_data[user][name]}</b>"
+"Прізвище: <b>{dialog_data[user][surname]}</b>"
+Електронна пошта: <b>{dialog_data[user][email]}</b>"
+Номер телефону: <b>{dialog_data[user][number]}</b>"
+Дата народження: <b>{dialog_data[user][birthday]}</b>"
 """
-)

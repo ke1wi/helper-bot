@@ -7,3 +7,5 @@ class Registration(StatesGroup):
     surname = State()
     number = State()
     birthday = State()
+    info = State()
+    database_info = State()
