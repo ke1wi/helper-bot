@@ -10,6 +10,6 @@ from app.utils.send_answer import send_answer
 class InDatabase(Filter):
     async def __call__(self, update: Union[Message, CallbackQuery]) -> User | None:
         if user := await get_user_by_telegram_id(update.from_user.id):
-            return user
+            return {"user": user}
         else:
             await send_answer(update, "Спочатку зареєтруйтесь! [/reg]")
